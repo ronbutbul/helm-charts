@@ -1,0 +1,57 @@
+storage:
+  type: elasticsearch
+    #options:
+      #es:
+       # server-urls: https://elasticsearch-master:9200
+      #  index-prefix: jaeger_
+        #version: 7                                  # Necessary as it doesn't work with 8 yet
+        #create-index-templates: false               # Necessary as it doesn't work with 8 yet
+  elasticsearch:
+    host: elasticsearch-master
+    port: 9200
+    scheme: https
+    user: elastic
+    password: Tasfo3In2mpADpE2
+    tls:
+      enabled: true
+      secretName: es-tls-secret   # need to create it from elasticsearch ca inside the pod
+      # The mount properties of the secret
+      mountPath: /es-tls/ca-cert.pem
+      subPath: ca-cert.pem
+      # How ES_TLS_CA variable will be set in the various components
+      ca: /es-tls/ca-cert.pem
+provisionDataStore:
+  cassandra: false
+  elasticsearch: false
+  kafka: false
+query:
+  cmdlineParams:
+    es.version: 7
+    es.create-index-templates: "false"
+    es.index-prefix: jaeger
+    es.tls.ca: "/tls/es.pem"
+  extraConfigmapMounts:
+    - name: jaeger-tls
+      mountPath: /tls
+      subPath: ""
+      configMap: jaeger-tls
+      readOnly: true
+collector:
+  cmdlineParams:
+    es.tls.ca: "/tls/es.pem"
+  extraConfigmapMounts:
+    - name: jaeger-tls
+      mountPath: /tls
+      subPath: ""
+      configMap: jaeger-tls
+      readOnly: true
+spark:
+  enabled: true
+  cmdlineParams:
+    java.opts: "-Djavax.net.ssl.trustStore=/tls/trust.store -Djavax.net.ssl.trustStorePassword=changeit"
+  extraConfigmapMounts:
+    - name: jaeger-tls
+      mountPath: /tls
+      subPath: ""
+      configMap: jaeger-tls
+      readOnly: true

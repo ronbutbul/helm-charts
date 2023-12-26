@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: argocd       
+  name: argo-svc
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    nodePort: 30001
+    targetPort: 8080
+  - name: https
+    port: 443
+    nodePort: 30223
+
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: argocd-server

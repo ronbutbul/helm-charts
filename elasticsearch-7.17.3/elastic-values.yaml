@@ -1,0 +1,7 @@
+esJavaOpts: "-Xmx1g -Xms1g"
+replicas: 2
+volumeClaimTemplate:
+  storageClassName: "nfs-client"
+  resources:
+    requests:
+      storage: 15Gi

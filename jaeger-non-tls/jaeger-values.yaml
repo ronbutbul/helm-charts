@@ -1,0 +1,11 @@
+storage:
+  type: elasticsearch
+  elasticsearch:
+    host: elasticsearch-master
+    port: 9200
+    scheme: http
+    usePassword: false
+provisionDataStore:
+  cassandra: false
+  elasticsearch: false
+  kafka: false
