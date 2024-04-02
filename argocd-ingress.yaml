@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  ingressClassName: nginx-custom-ingress #[Change-ME]
+  rules:
+  - host: argocd.online #[Change-ME] 
+    http:
+      paths:
+      - path: /  #[SAML (with Dex) SSO Setup path]
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: my-argo-cd-argocd-server #[your argoCD server service name]
+            port:
+              name: https
+  tls:
+  - hosts:
+    - argocd.online #[Change-ME]
+    secretName: argocd-secret #["My Let's encrypt cert secrets name"] #[Change-ME]

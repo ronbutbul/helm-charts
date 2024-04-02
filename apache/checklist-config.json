@@ -1,0 +1,61 @@
+{
+  "apps": {
+    "mongodb": {
+      "type": "mongodb",
+      "endpoint": "k8s-rafaelts-mongo5rs-0a7a2695e2-fb36d2b62b7dae0c.elb.eu-west-1.amazonaws.com:27017",
+      "database_name": "tsgsdb",
+      "username": "tsgsuser",
+      "password": "tsgspassword"
+    }
+  },
+  "configMapCheck": {
+    "name": "trusted-ca",
+    "namespace": "rafael-tsgs-cicd-flight"
+  },
+  "secretsChecks": [
+    {
+      "name": "tsgs-registry",
+      "namespace": "rafael-tsgs-cicd-flight"
+    },
+    {
+      "name": "tsinf-reg",
+      "namespace": "rafael-tsgs-cicd-flight"
+    }
+  ],
+
+  "applicationChecks": [
+    {
+      "name": "zalenium",
+      "namespace": "rafael-tsgs-cicd-flight"
+    },
+    {
+      "name": "locust",
+      "namespace": "rafael-tsgs-cicd-flight"
+    },
+    {
+      "name": "app-of-apps",
+      "namespace": "rafael-tsgs-cicd-flight"
+    }    
+  ],
+  "clusterLogForwarderDetails": {
+    "name": "instance",
+    "namespace": "openshift-logging",
+    "targetNamespace": "rafael-tsgs-cicd-flight"
+  },
+  "jaegerCheck": {
+    "namespace": "rafael-tsgs-cicd-flight",
+    "expectedJaegerEndpoint": "k8s-rafaelts-jaegerra-db787948a8-ed4d8fd624330e8c.elb.eu-west-1.amazonaws.com:14250"
+  },  
+  "deploymentCheck": {
+    "namespace": "rafael-tsgs-cicd-flight",
+    "partialName": "sealed-secrets"
+  },
+  "prometheusCheck": {
+    "endpoint": "http://prometheus.tsgs-saas-aws.wwest.local/",
+    "jobName": "otel-collector-cicd-flight"
+  },
+  "elasticsearchCheck": {
+    "endpoint": "http://elasticsearch.tsgs-saas-aws.wwest.local",
+    "partialIndexName": "rafael-tsgs-cicd-flight"
+  }
+}

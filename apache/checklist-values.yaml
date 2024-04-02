@@ -1,0 +1,34 @@
+AppImage:
+  repository:  artifactory.rafael.co.il:6001/infra/checklist
+  tag: v15
+  pullPolicy: IfNotPresent
+
+#podSecurityContext:
+#  runAsUser: 1001040000
+
+#imagePullSecrets:
+#  - name: tsgs-registry  
+
+
+service:
+  type: ClusterIP
+  ports:
+    http: 80
+    https: 443
+  nodePorts:
+    http: ""
+    https: ""
+  clusterIP: "" # You can set a specific Cluster IP if needed
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+
+containerSecurityContext:
+  enabled: false
+#  runAsUser: 10010400
+#  runAsGroup: 10010400
+#  seLinuxOptions: 
+#    level: "s0:c32,c24"  
+podSecurityContext:
+  enabled: false
+#  fsGroup: 1001040000    
+#  runAsUser: 1001040000
